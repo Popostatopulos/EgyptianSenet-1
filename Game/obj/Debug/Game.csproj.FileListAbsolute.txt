@@ -1,0 +1,21 @@
+C:\Users\valer\RiderProjects\Game\Game\bin\Debug\Game.exe.config
+C:\Users\valer\RiderProjects\Game\Game\bin\Debug\Game.exe
+C:\Users\valer\RiderProjects\Game\Game\bin\Debug\Game.pdb
+C:\Users\valer\RiderProjects\Game\Game\obj\Debug\Game.csprojAssemblyReference.cache
+C:\Users\valer\RiderProjects\Game\Game\obj\Debug\Game.Properties.Resources.resources
+C:\Users\valer\RiderProjects\Game\Game\obj\Debug\Game.csproj.GenerateResource.cache
+C:\Users\valer\RiderProjects\Game\Game\obj\Debug\Game.exe
+C:\Users\valer\RiderProjects\Game\Game\obj\Debug\Game.pdb
+C:\Users\egorp\OneDrive\Рабочий стол\C#\EgyptianSenet-master\bin\Debug\Game.exe.config
+C:\Users\egorp\OneDrive\Рабочий стол\C#\EgyptianSenet-master\bin\Debug\Game.exe
+C:\Users\egorp\OneDrive\Рабочий стол\C#\EgyptianSenet-master\bin\Debug\Game.pdb
+C:\Users\egorp\OneDrive\Рабочий стол\C#\EgyptianSenet-master\obj\Debug\Game.csprojAssemblyReference.cache
+C:\Users\egorp\OneDrive\Рабочий стол\C#\EgyptianSenet-master\obj\Debug\Game.Properties.Resources.resources
+C:\Users\egorp\OneDrive\Рабочий стол\C#\EgyptianSenet-master\obj\Debug\Game.csproj.GenerateResource.cache
+C:\Users\egorp\OneDrive\Рабочий стол\C#\EgyptianSenet-master\obj\Debug\Game.exe
+C:\Users\egorp\OneDrive\Рабочий стол\C#\EgyptianSenet-master\obj\Debug\Game.pdb
+C:\Users\valer\RiderProjects\Game\Game\obj\Debug\Game.Views.StartControl.resources
+C:\Users\valer\RiderProjects\Game\Game\bin\Debug\nunit.framework.dll
+C:\Users\valer\RiderProjects\Game\Game\bin\Debug\nunit.framework.pdb
+C:\Users\valer\RiderProjects\Game\Game\bin\Debug\nunit.framework.xml
+C:\Users\valer\RiderProjects\Game\Game\obj\Debug\Game.csproj.CopyComplete

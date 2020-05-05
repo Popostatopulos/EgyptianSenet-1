@@ -18,8 +18,8 @@ namespace Game.GameLogic.Tests
             var game = new Game();
             var map = game.Map;
             var cone = map[1].State;
-            cone.MakeStep(24, map);
-            cone.MakeStep(stepCount, map);
+            Game.MakeStep(24, map, cone);
+            Game.MakeStep(stepCount, map, cone);
             Assert.AreEqual(map[26].State, cone);
         }
         
@@ -34,9 +34,9 @@ namespace Game.GameLogic.Tests
             var game = new Game();
             var map = game.Map;
             var cone = map[1].State;
-            cone.MakeStep(25, map);
-            cone.MakeStep(position - 26, map);
-            cone.MakeStep(stepCount, map);
+            Game.MakeStep(25, map, cone);
+            Game.MakeStep(position - 26, map, cone);
+            Game.MakeStep(stepCount, map, cone);
             Assert.AreEqual(map[position].State, null);
         }
         
@@ -49,9 +49,9 @@ namespace Game.GameLogic.Tests
             var game = new Game();
             var map = game.Map;
             var cone = map[1].State;
-            cone.MakeStep(25, map);
-            cone.MakeStep(1, map);
-            cone.MakeStep(stepCount, map);
+            Game.MakeStep(25, map, cone);
+            Game.MakeStep(1, map, cone);
+            Game.MakeStep(stepCount, map, cone);
             Assert.AreEqual(map[15].State, cone);
         }
         
@@ -61,9 +61,9 @@ namespace Game.GameLogic.Tests
             var game = new Game();
             var map = game.Map;
             var cone = map[1].State;
-            cone.MakeStep(25, map);
-            cone.MakeStep(1, map);
-            cone.MakeStep(5, map);
+            Game.MakeStep(25, map, cone);
+            Game.MakeStep(1, map, cone);
+            Game.MakeStep(5, map, cone);
             Assert.AreEqual(map[27].State, cone);
         }
         
@@ -77,11 +77,11 @@ namespace Game.GameLogic.Tests
             var map = game.Map;
             var cone = map[1].State;
             var coil = map[2].State;
-            coil.MakeStep(24, map);
-            coil.MakeStep(positionCoil - 26, map);
-            cone.MakeStep(25, map);
-            cone.MakeStep(positionCone - 26, map);
-            cone.MakeStep(positionCoil - positionCone, map);
+            Game.MakeStep(24, map, coil);
+            Game.MakeStep(positionCoil - 26, map, coil);
+            Game.MakeStep(25, map, cone);
+            Game.MakeStep(positionCone - 26, map, cone);
+            Game.MakeStep(positionCoil - positionCone, map, cone);
             Assert.AreEqual(map[15].State, coil);
             Assert.AreEqual(map[positionCoil].State, cone);
         }
@@ -95,9 +95,9 @@ namespace Game.GameLogic.Tests
             var game = new Game();
             var map = game.Map;
             var cone = map[1].State;
-            cone.MakeStep(25, map);
-            cone.MakeStep(positionCone - 26, map);
-            cone.MakeStep(stepCount, map);
+            Game.MakeStep(25, map, cone);
+            Game.MakeStep(positionCone - 26, map, cone);
+            Game.MakeStep(stepCount, map, cone);
             Assert.AreEqual(map[positionCone].State, cone);
         }
     }

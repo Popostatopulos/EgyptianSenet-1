@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
@@ -57,8 +58,6 @@ namespace Game
         [STAThread]
         static void Main()
         {
-            var sticks = new Sticks();
-            sticks.Throw();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MyForm());

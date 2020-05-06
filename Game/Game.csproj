@@ -61,6 +61,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="GameLogic\IFinalHouse.cs" />
     <Compile Include="GameLogic\Player.cs" />
     <Compile Include="GameLogic\Sticks.cs" />
     <Compile Include="GameLogic\Tests\TestsStep.cs" />

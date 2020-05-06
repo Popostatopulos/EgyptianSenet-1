@@ -38,7 +38,7 @@ namespace Game.GameLogic.Tests
             map[1] = new Cell(coil);
             for (var i = 2; i < map.Length; i++)
                 map[i] = new Cell(null);
-            map[1].State.MakeStep(stepCount, map);
+            Game.MakeStep(stepCount, map, map[1].State);
             Assert.AreEqual(coil, map[1 + stepCount].State);
             Assert.IsNull(map[1].State);
         }
@@ -63,7 +63,7 @@ namespace Game.GameLogic.Tests
                 else
                     map[i] = new Cell(null);
             }
-            map[1].State.MakeStep(stepCount, map);
+            Game.MakeStep(stepCount, map, map[1].State);
             Assert.AreEqual(map[1].State, cone);
             Assert.AreEqual(map[cutLocation].State, coil);
         }
@@ -91,7 +91,7 @@ namespace Game.GameLogic.Tests
                 else
                     map[i] = new Cell(null);
             }
-            Assert.IsFalse(map[1].State.MakeStep(stepCount, map));
+            Assert.IsFalse(Game.MakeStep(stepCount, map, map[1].State));
         }
         
         [Test]
@@ -112,7 +112,7 @@ namespace Game.GameLogic.Tests
                 else
                     map[i] = new Cell(null);
             }
-            Assert.IsFalse(map[1].State.MakeStep(stepCount, map));
+            Assert.IsFalse(Game.MakeStep(stepCount, map, map[1].State));
         }
     }
 }

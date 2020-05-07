@@ -2,22 +2,23 @@
 {
     public class HouseOfRevival : Cell
     {
-        public HouseOfRevival(Figure state) : base (state)
+        public static int Location { get; set; }
+        public HouseOfRevival(Figure state, int location) : base (state)
         {
             State = state;
+            Location = location;
         }
     }
     
-    public class HouseOfBeauty : Cell
+    public class HouseOfBeauty : Cell, IFinalHouse
     {
-        public int ConditionOfExit = 5;
         public HouseOfBeauty(Figure state) : base (state)
         {
             State = state;
         }
     }
     
-    public class HouseOfWater : Cell
+    public class HouseOfWater : Cell, IFinalHouse
     {
         public HouseOfWater(Figure state) : base (state)
         {
@@ -25,7 +26,7 @@
         }
     }
     
-    public class HouseOfThreeTruths : Cell
+    public class HouseOfThreeTruths : Cell, IFinalHouse
     {
         public HouseOfThreeTruths(Figure state) : base (state)
         {
@@ -33,15 +34,15 @@
         }
     }
     
-    public class HouseOfIsidNeftid : Cell
+    public class HouseOfIsidaAndNeftida : Cell, IFinalHouse
     {
-        public HouseOfIsidNeftid(Figure state) : base (state)
+        public HouseOfIsidaAndNeftida(Figure state) : base (state)
         {
             State = state;
         }
     }
     
-    public class HouseOfRaHorati : Cell
+    public class HouseOfRaHorati : Cell, IFinalHouse
     {
         public HouseOfRaHorati(Figure state) : base (state)
         {

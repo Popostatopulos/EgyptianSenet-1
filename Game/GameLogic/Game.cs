@@ -34,18 +34,20 @@ namespace Game.GameLogic
                 Map[i] = new Cell(null);
             }
             
-            Map[15] = new HouseOfRevival(null);
+            Map[15] = new HouseOfRevival(null, 15);
             Map[26] = new HouseOfBeauty(null);
             Map[27] = new HouseOfWater(null);
             Map[28] = new HouseOfThreeTruths(null);
-            Map[29] = new HouseOfIsidNeftid(null);
+            Map[29] = new HouseOfIsidaAndNeftida(null);
             Map[30] = new HouseOfRaHorati(null);
         }
         
         public static bool MakeStep(int stepCount, Cell[] map, Figure figure)//Перенести часть? логики в Game
         {
             if (stepCount == 0) return false;
-            if (figure.Location == 27)// Свойство дома
+            var targetLocation = figure.Location + stepCount;
+                
+            if (map[figure.Location] is HouseOfWater)// Свойство дома
             {
                 switch (stepCount)
                 {
@@ -60,30 +62,27 @@ namespace Game.GameLogic
                 }
             }
             
-            if (figure.Location + stepCount >= 26 && map[26].State == null && figure.Location < 26)
+            if (targetLocation < map.Length 
+                && map[targetLocation] is IFinalHouse 
+                && !(map[figure.Location] is IFinalHouse))
             {
                 StepToHouseOfBeauty(map, figure);
                 return true;
             }
 
-            if (figure.Location == 26)
+            if (map[figure.Location] is HouseOfBeauty)
             {
                 if (stepCount == 5)
                     StepOut(stepCount, map, figure);
                 else
                 {
-                    if (map[figure.Location + stepCount].State == null)
-                    {
+                    if (map[targetLocation].State == null)
                         SimpleStep(stepCount, map, figure);
-                    }
 
                     else
                     {
-                        var temp = map[figure.Location + stepCount].State;
+                        var temp = map[targetLocation].State;
                         MoveToHouseOfRevival(map, temp);
-                        // map[figure.Location + stepCount].State = map[figure.Location].State;
-                        // map[figure.Location].State = null;
-                        // figure.Location += stepCount; 
                         SimpleStep(stepCount, map, figure);
                     }
                 }
@@ -92,10 +91,10 @@ namespace Game.GameLogic
             }//Вложенность
             
 
-            if (figure.Location >= 28)
+            if (map.Length - figure.Location <= 3)
                 return StepOut(stepCount, map, figure);
             
-            if (map[figure.Location + stepCount].State == null)
+            if (map[targetLocation].State == null)
             {
                 SimpleStep(stepCount, map, figure);
                 return true;
@@ -103,8 +102,8 @@ namespace Game.GameLogic
 
             map[figure.Location + stepCount].State.IsFree = !CheckNeighbors(map, map[figure.Location + stepCount].State);
             
-            if (map[figure.Location + stepCount].State != null
-                && map[figure.Location + stepCount].State.IsFree && map[figure.Location + stepCount].State.Type != figure.Type)
+            if (map[targetLocation].State != null
+                && map[targetLocation].State.IsFree && map[targetLocation].State.Type != figure.Type)
             {
                 StepWithCut(stepCount, map, figure);
                 return true;
@@ -112,10 +111,10 @@ namespace Game.GameLogic
             
             return false;
         }
-        
-        public static void MoveToHouseOfRevival(Cell[] map, Figure figure)
+
+        private static void MoveToHouseOfRevival(Cell[] map, Figure figure)
         {
-            for (var i = 15; i >= 1; i--)
+            for (var i = HouseOfRevival.Location; i >= 1; i--)
             {
                 if (map[i].State != null) continue;
                 map[i].State = figure;
@@ -124,14 +123,14 @@ namespace Game.GameLogic
             }
         }
 
-        public static void SimpleStep(int stepCount, Cell[] map, Figure figure)
+        private static void SimpleStep(int stepCount, Cell[] map, Figure figure)
         {
             map[figure.Location + stepCount].State = map[figure.Location].State;
             map[figure.Location].State = null;
             figure.Location += stepCount;   
         }
 
-        public static void StepWithCut(int stepCount, Cell[] map, Figure figure)
+        private static void StepWithCut(int stepCount, Cell[] map, Figure figure)
         {
             var temp = map[figure.Location + stepCount].State;
             map[figure.Location + stepCount].State = map[figure.Location].State;
@@ -139,14 +138,14 @@ namespace Game.GameLogic
             figure.Location += stepCount;  
         }
 
-        public static bool StepOut(int stepCount, Cell[] map, Figure figure)
+        private static bool StepOut(int stepCount, Cell[] map, Figure figure)
         {
             if (stepCount != map.Length - figure.Location) return false;
             map[figure.Location].State = null;
             return true;
         }
-        
-        public static void StepToHouseOfBeauty(Cell[] map, Figure figure)
+
+        private static void StepToHouseOfBeauty(Cell[] map, Figure figure)
         {
             map[26].State = map[figure.Location].State;
             map[figure.Location].State = null;

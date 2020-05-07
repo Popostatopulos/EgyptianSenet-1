@@ -1,18 +1,25 @@
-﻿using Game;
+﻿using System;
+using System.Linq;
+using Game.Views;
 
 namespace Game.GameLogic
 {
     public class Game
     {
         public Cell[] Map { get; set; }
-
+        private GameStages stage = GameStages.Menu;
+        public GameStages Stage => stage;
         public Player PlayerFirst { get; set; }
         public Player PlayerSecond { get; set; }
-        
-            
+        public event Action<GameStages> StageChanged;
+        private bool isFirstPlayerCurrent = false;
+        public Player CurrentPlayer { get; set; }
+        public event Action<Player> CurrentPlayerChanged;
+
+
+
         //Для игрока - человека нужно сделать выбор фигуры по нажатию ЛКМ
         //Для ИИ метод ChooseFigure должен быть написан в классе Player
-        
         public Game()
         {
             Map = new Cell[31];
@@ -20,6 +27,7 @@ namespace Game.GameLogic
             PlayerFirst = new Player(ChipsType.Cone, Map);
             PlayerSecond = new Player(ChipsType.Coil, Map);
         }
+        
 
         private void MapFilling()
         {
@@ -40,6 +48,34 @@ namespace Game.GameLogic
             Map[28] = new HouseOfThreeTruths(null);
             Map[29] = new HouseOfIsidaAndNeftida(null);
             Map[30] = new HouseOfRaHorati(null);
+        }
+
+        public void ChangeStage(GameStages stage)
+        {
+            this.stage = stage;
+            StageChanged?.Invoke(stage);
+        }
+
+        
+        public void ChangeCurrentPlayer()
+        {
+            CurrentPlayer = isFirstPlayerCurrent ? PlayerSecond : PlayerFirst;
+            //CurrentPlayerChanged?.Invoke(CurrentPlayer);
+        }
+
+        public void HumanMove(int figureNumber, Sticks sticks)
+        {
+            var stepCount = sticks.Throw();
+            var currentFigure = CurrentPlayer.OwnFigures.Find(figure => figure.SerialNumber == figureNumber);
+            if (!MakeStep(stepCount, Map, currentFigure)) return;
+            if (sticks.ExtraMove) 
+                HumanMove(currentFigure.SerialNumber, sticks);
+            ChangeCurrentPlayer();
+        }
+
+        public void Start()
+        {
+            throw new NotImplementedException();
         }
         
         public static bool MakeStep(int stepCount, Cell[] map, Figure figure)//Перенести часть? логики в Game

@@ -53,14 +53,9 @@
   <ItemGroup>
     <Compile Include="GameLogic\Cell.cs" />
     <Compile Include="GameLogic\Game.cs" />
+    <Compile Include="GameLogic\GameStages.cs" />
     <Compile Include="GameLogic\House.cs" />
     <Compile Include="GameLogic\Figure.cs" />
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="GameLogic\IFinalHouse.cs" />
     <Compile Include="GameLogic\Player.cs" />
     <Compile Include="GameLogic\Sticks.cs" />
@@ -70,11 +65,20 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\StartControl.cs">
+    <Compile Include="Views\GameControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\StartControl.Designer.cs">
-      <DependentUpon>StartControl.cs</DependentUpon>
+    <Compile Include="Views\GameControl.Designer.cs">
+      <DependentUpon>GameControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GameForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\GameForm.Designer.cs">
+      <DependentUpon>GameForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MenuForm.cs">
+      <SubType>Form</SubType>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -85,8 +89,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Views\StartControl.resx">
-      <DependentUpon>StartControl.cs</DependentUpon>
+    <EmbeddedResource Include="Views\GameControl.resx">
+      <DependentUpon>GameControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

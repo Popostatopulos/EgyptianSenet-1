@@ -40,11 +40,6 @@ namespace Game.GameLogic
         
         //Check() и Move(), просчет хода(ИИ), сам ход
 
-        public bool HumanMove()
-        {
-            throw new NotImplementedException();   
-        }
-
         public bool Check(int figureNumber, int stepCount)
         {
             throw new NotImplementedException();

@@ -2,19 +2,19 @@
 <project version="4">
   <component name="ContentModelStore">
     <e p="C:\Users\valer\.Rider2019.2\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\valer\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_Game.1756696199.00" t="ExcludeRecursive" />
-    <e p="C:\Users\valer\RiderProjects\Game" t="IncludeFlat">
+    <e p="C:\Users\valer\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_Game.-265926253.00" t="ExcludeRecursive" />
+    <e p="C:\Users\valer\RiderProjects\Game\EgyptianSenet" t="IncludeFlat">
       <e p="Game" t="IncludeRecursive">
         <e p="App.config" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
-        <e p="Form1.cs" t="Include" />
-        <e p="Form1.Designer.cs" t="Include" />
         <e p="Game.csproj" t="IncludeRecursive" />
         <e p="GameLogic" t="Include">
           <e p="Cell.cs" t="Include" />
           <e p="Figure.cs" t="Include" />
           <e p="Game.cs" t="Include" />
+          <e p="GameStages.cs" t="Include" />
           <e p="House.cs" t="Include" />
+          <e p="IFinalHouse.cs" t="Include" />
           <e p="Player.cs" t="Include" />
           <e p="Sticks.cs" t="Include" />
           <e p="Tests" t="Include">
@@ -33,9 +33,10 @@
           <e p="Settings.settings" t="Include" />
         </e>
         <e p="Views" t="Include">
-          <e p="StartControl.cs" t="Include" />
-          <e p="StartControl.Designer.cs" t="Include" />
-          <e p="StartControl.resx" t="Include" />
+          <e p="GameForm.cs" t="Include" />
+          <e p="GameForm.Designer.cs" t="Include" />
+          <e p="MenuForm.cs" t="Include" />
+          <e p="MenuForm.Designer.cs" t="Include" />
         </e>
       </e>
       <e p="Game.sln" t="IncludeFlat" />

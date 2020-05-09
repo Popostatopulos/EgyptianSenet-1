@@ -44,3 +44,15 @@ C:\Users\valer\RiderProjects\Game\EgyptianSenet\Game\bin\Debug\nunit.framework.d
 C:\Users\valer\RiderProjects\Game\EgyptianSenet\Game\bin\Debug\nunit.framework.pdb
 C:\Users\valer\RiderProjects\Game\EgyptianSenet\Game\bin\Debug\nunit.framework.xml
 C:\Users\valer\RiderProjects\Game\EgyptianSenet\Game\obj\Debug\Game.csproj.CopyComplete
+C:\Users\egorp\OneDrive\Рабочий стол\C#\EgyptianSenet_safety\EgyptianSenet-1\Game\bin\Debug\Game.exe.config
+C:\Users\egorp\OneDrive\Рабочий стол\C#\EgyptianSenet_safety\EgyptianSenet-1\Game\bin\Debug\Game.exe
+C:\Users\egorp\OneDrive\Рабочий стол\C#\EgyptianSenet_safety\EgyptianSenet-1\Game\bin\Debug\Game.pdb
+C:\Users\egorp\OneDrive\Рабочий стол\C#\EgyptianSenet_safety\EgyptianSenet-1\Game\bin\Debug\nunit.framework.dll
+C:\Users\egorp\OneDrive\Рабочий стол\C#\EgyptianSenet_safety\EgyptianSenet-1\Game\bin\Debug\nunit.framework.pdb
+C:\Users\egorp\OneDrive\Рабочий стол\C#\EgyptianSenet_safety\EgyptianSenet-1\Game\bin\Debug\nunit.framework.xml
+C:\Users\egorp\OneDrive\Рабочий стол\C#\EgyptianSenet_safety\EgyptianSenet-1\Game\obj\Debug\Game.csprojAssemblyReference.cache
+C:\Users\egorp\OneDrive\Рабочий стол\C#\EgyptianSenet_safety\EgyptianSenet-1\Game\obj\Debug\Game.Properties.Resources.resources
+C:\Users\egorp\OneDrive\Рабочий стол\C#\EgyptianSenet_safety\EgyptianSenet-1\Game\obj\Debug\Game.csproj.GenerateResource.cache
+C:\Users\egorp\OneDrive\Рабочий стол\C#\EgyptianSenet_safety\EgyptianSenet-1\Game\obj\Debug\Game.csproj.CopyComplete
+C:\Users\egorp\OneDrive\Рабочий стол\C#\EgyptianSenet_safety\EgyptianSenet-1\Game\obj\Debug\Game.exe
+C:\Users\egorp\OneDrive\Рабочий стол\C#\EgyptianSenet_safety\EgyptianSenet-1\Game\obj\Debug\Game.pdb

@@ -114,5 +114,27 @@ namespace Game.GameLogic.Tests
             }
             Assert.IsFalse(Game.MakeStep(stepCount, map, map[1].State));
         }
+
+        [Test]
+        public void MakeStepToSecondRow_Should()
+        {
+            var game = new Game();
+            Game.MakeStep(1, game.Map, game.Map[9].State);
+            Assert.IsFalse(Game.MakeStep(2, game.Map, game.Map[9].State));
+        }
+
+        [Test]
+        public void WinCondition()
+        {
+            var game = new Game();
+            for (var i = 1; i < 15; i++)
+            {
+                var figure = game.Map[i].State;
+                Game.MakeStep(26 - i, game.Map, figure);
+                Game.MakeStep(5, game.Map, figure);
+            }
+
+            Assert.IsTrue(game.PlayerSecond.OwnFigures.Count == 0);
+        }
     }
 }

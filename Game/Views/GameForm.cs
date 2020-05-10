@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using Game.GameLogic;
 
@@ -9,81 +10,165 @@ namespace Game.Views
     public partial class GameForm : Form
     {
         private GameLogic.Game game;
-        private Dictionary<Control, Cell> cells;
-        private TableLayoutPanel table;
-        public GameForm(GameLogic.Game game)
+        private Dictionary<Cell, Control> cells;
+        private Dictionary<Control, Cell> buttons;
+        private readonly TableLayoutPanel gameField;
+        private Label sticks;
+        private Button throwButton;
+        private int currentStepCount;
+        private Label currentFigureType;
+        
+        public GameForm(GameLogic.Game game, MenuForm menuForm)
         {
-            cells = new Dictionary<Control, Cell>();
+            cells = new Dictionary<Cell, Control>();
+            buttons = new Dictionary<Control, Cell>();
             this.game = game;
             MinimumSize = new Size(1200, 800);
             MaximumSize = MinimumSize;
-            table = new TableLayoutPanel();
+            gameField = new TableLayoutPanel
+            {
+                Location = new Point(50, 50),
+                Size = new Size(1100, 300)
+            };
+            
             for (var i = 0; i < 10; i++)
             {
-                table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10));
+                gameField.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, gameField.Width / 10));
                 if (i == 0 || i == 1 || i == 2)
-                    table.RowStyles.Add(new RowStyle(SizeType.Percent, 34));
+                    gameField.RowStyles.Add(new RowStyle(SizeType.Percent, gameField.Height / 3));
             }
             
             for (var i = 0; i < 10; i++)
             {
                 for (var j = 0; j < 3; j++)
                 {
-                    var button = new Button {Dock = DockStyle.Fill, BackColor = Color.Black};
-                    table.Controls.Add(button, i, j);
-                    
-                    
-                     button.Click += (sender, args) =>
-                     {
-                        if (GameLogic.Game.MakeStep(3, game.Map, cells[button].State));
-                            Redrawing(new Point(0, 0), new Point(1, 1));
-                     };
-                    
-                    //table.Controls[i + j * 10]
-                    //table.Controls[19 - i]
+                    var button = new Button {Dock = DockStyle.Fill, BackColor = Color.FromArgb(239, 227, 175)};
+                    gameField.Controls.Add(button, i, j);
+                    button.Click += (sender, args) =>
+                    {
+                        Figure figure;
+                        if (buttons[button].State != null)
+                        {
+                            figure = buttons[button].State;
+                            if (GameLogic.Game.CurrentPlayer.FigureInTheHouseOfBeauty != null)
+                                figure = GameLogic.Game.CurrentPlayer.FigureInTheHouseOfBeauty;
+                            
+                            if (GameLogic.Game.CurrentPlayer.FigureInTheHouseOfWater != null)
+                                figure = GameLogic.Game.CurrentPlayer.FigureInTheHouseOfWater;
+
+                            if (figure.Type == GameLogic.Game.CurrentPlayer.OwnType &&
+                                GameLogic.Game.MakeStep(currentStepCount, game.Map, figure))
+                            {
+                                FieldRedrawing();
+                                if (!GameLogic.Game.Sticks.ExtraMove)
+                                {
+                                    game.ChangeCurrentPlayer();
+                                    CurrentFigureTypeRedrawing();
+                                }
+
+                                currentStepCount = 0;
+                            }
+                        }
+
+                        if (GameLogic.Game.IsGameOver())
+                        {
+                            var messageBox = MessageBox.Show("Игра окончена!", "", MessageBoxButtons.YesNo);
+                            if (messageBox != DialogResult.Yes)
+                            {
+                                Close();
+                                menuForm.Close();
+                            }
+                        }
+                    };
                 }
             }
+            
             for (var i = 0; i < 10; i++)
             {
                 for (var j = 0; j < 3; j++)
                 {
                     if (j == 0 || j == 2)
-                        cells.Add(table.GetControlFromPosition(i, j), game.Map[i + 1 + 10 * j]);
+                    {
+                        cells.Add(game.Map[i + 1 + 10 * j], gameField.GetControlFromPosition(i, j));
+                        buttons.Add(gameField.GetControlFromPosition(i, j), game.Map[i + 1 + 10 * j]);
+                    }
                     else if (j == 1)
-                        cells.Add(table.GetControlFromPosition(9 - i, j), game.Map[20 - i]);
+                    {
+                        cells.Add(game.Map[20 - i], gameField.GetControlFromPosition(i, j));
+                        buttons.Add(gameField.GetControlFromPosition(i, j), game.Map[20 - i]);
+                    }
                 }
             }
 
-            for (var i = 0; i < 10; i++)
+            FieldRedrawing();
+            
+            gameField.BorderStyle = BorderStyle.Fixed3D;
+            Controls.Add(gameField);
+            
+            throwButton = new Button
             {
-                if (i % 2 == 0)
-                {
-                    table.GetControlFromPosition(i, 0).BackgroundImage = new Bitmap(@"images\Cone.jpg");
-                }
-                else
-                {
-                    table.GetControlFromPosition(i, 0).BackgroundImage = new Bitmap(@"images\Coil.jpg");
-                }
-            }
-            
-            table.GetControlFromPosition(9, 1).BackgroundImage = new Bitmap(@"images\Cone.jpg");
-            table.GetControlFromPosition(8, 1).BackgroundImage = new Bitmap(@"images\Coil.jpg");
-            table.GetControlFromPosition(7, 1).BackgroundImage = new Bitmap(@"images\Cone.jpg");
-            table.GetControlFromPosition(6, 1).BackgroundImage = new Bitmap(@"images\Coil.jpg");
+                Text = "Throw Sticks",
+                ForeColor = Color.Beige,
+                Font = new Font("Arial", 13),
+                Size = new Size(200, 100),
+                Location = new Point(gameField.Left, gameField.Bottom + 100),
+                BackColor = Color.Teal
+            };
 
+            throwButton.Click += (sender, args) =>
+            {
+                currentStepCount = GameLogic.Game.Sticks.Throw();
+                SticksRedrawing();
+            };
+            Controls.Add(throwButton);
+
+            sticks = new Label
+            {
+                Size = new Size(400, 215),
+                Location = new Point(throwButton.Right + 100, gameField.Bottom + 100),
+                BackgroundImage = new Bitmap(@"images\sticks5.jpg")
+            };
+            Controls.Add(sticks);
             
-            table.BorderStyle = BorderStyle.Fixed3D;
-            table.Width = 1100;
-            table.Height = 400;
-            Controls.Add(table);
+            currentFigureType = new Label
+            {
+                Size = new Size(110, 100),
+                BackgroundImage = new Bitmap(@"images\Coil.jpg"),
+                Location = new Point(sticks.Right + 150, gameField.Bottom + 100)
+            };
+            Controls.Add(currentFigureType);
         }
 
-        
-        
-        private void Redrawing(Point first, Point second)
+        public void CurrentFigureTypeRedrawing()
         {
-            table.GetControlFromPosition(second.X, second.Y).BackgroundImage = 
-                table.GetControlFromPosition(first.X, first.Y).BackgroundImage;
+            if (GameLogic.Game.CurrentPlayer.OwnType == ChipsType.Coil)
+                currentFigureType.BackgroundImage = new Bitmap(@"images\Coil.jpg");
+            else
+                currentFigureType.BackgroundImage = new Bitmap(@"images\Cone.jpg");
+        }
+
+
+        private void SticksRedrawing()
+        {
+            sticks.BackgroundImage = new Bitmap($@"images\sticks{currentStepCount}.jpg");
+        }
+        
+        private void FieldRedrawing()
+        {
+            foreach (var cell in game.Map.Skip(1))
+            {
+                if (cell.State != null)
+                {
+                    if (cell.State.Type == ChipsType.Coil)
+                        cells[cell].BackgroundImage = new Bitmap(@"images\Coil.jpg");
+                    else
+                    {
+                        cells[cell].BackgroundImage = new Bitmap(@"images\Cone.jpg");
+                    }
+                }
+                else
+                    cells[cell].BackgroundImage = new Bitmap(@"images\fon.png");
+            }
         }
     }
 }

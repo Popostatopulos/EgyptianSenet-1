@@ -56,3 +56,4 @@ C:\Users\egorp\OneDrive\Рабочий стол\C#\EgyptianSenet_safety\Egyptian
 C:\Users\egorp\OneDrive\Рабочий стол\C#\EgyptianSenet_safety\EgyptianSenet-1\Game\obj\Debug\Game.csproj.CopyComplete
 C:\Users\egorp\OneDrive\Рабочий стол\C#\EgyptianSenet_safety\EgyptianSenet-1\Game\obj\Debug\Game.exe
 C:\Users\egorp\OneDrive\Рабочий стол\C#\EgyptianSenet_safety\EgyptianSenet-1\Game\obj\Debug\Game.pdb
+C:\Users\egorp\OneDrive\Рабочий стол\C#\EgyptianSenet_safety\EgyptianSenet-1\Game\obj\Debug\Game.Views.GameForm.resources

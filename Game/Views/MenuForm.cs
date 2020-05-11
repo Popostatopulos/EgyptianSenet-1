@@ -5,9 +5,8 @@ namespace Game.Views
 {
     public partial class MenuForm : Form
     {
-        public MenuForm(GameLogic.Game game)
+        public MenuForm()
         {
-            var a = new GameForm(game, this);
             MinimumSize = new Size(1200, 800);
             MaximumSize = MinimumSize;
             BackgroundImage = new Bitmap(@"images\start.jpg");
@@ -23,7 +22,7 @@ namespace Game.Views
             
             startButton.Click += (sender, args) =>
             {
-                a.Show();
+                new GameForm(new GameLogic.Game(), this).Show();
                 Hide();
             };
             

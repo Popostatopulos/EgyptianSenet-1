@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Game.Views;
 
@@ -32,8 +33,8 @@ namespace Game.GameLogic
         {
             for (var i = 1; i < 14; i += 2)
             {
-                Map[i] = new Cell(new Figure(i, (i+1)/2, ChipsType.Cone));
-                Map[i + 1] = new Cell(new Figure(i + 1, (i+1)/2, ChipsType.Coil));
+                Map[i] = new Cell(new Figure(i, (i + 1) / 2, ChipsType.Cone));
+                Map[i + 1] = new Cell(new Figure(i + 1, (i + 1) / 2, ChipsType.Coil));
             }
 
             for (var i = 16; i <= 25; i++)
@@ -125,14 +126,15 @@ namespace Game.GameLogic
             if (map.Length - figure.Location <= 3)
                 return StepOut(stepCount, map, figure);
             
+            if (map[figure.Location + stepCount].State != null)
+                map[figure.Location + stepCount].State.IsFree = !CheckNeighbors(map, map[figure.Location + stepCount].State);
+            
             if (map[targetLocation].State == null)
             {
                 SimpleStep(stepCount, map, figure);
                 return true;
             }
 
-            map[figure.Location + stepCount].State.IsFree = !CheckNeighbors(map, map[figure.Location + stepCount].State);
-            
             if (map[targetLocation].State != null
                 && map[targetLocation].State.IsFree && map[targetLocation].State.Type != figure.Type)
             {
@@ -196,6 +198,25 @@ namespace Game.GameLogic
             }
 
             return map[figure.Location - 1].State != null && map[figure.Location - 1].State.Type == figure.Type;
+        }
+
+        public List<Figure> CheckAbleToMove(int stepCount)
+        {
+            var result = new List<Figure>();
+            foreach (var figure in CurrentPlayer.OwnFigures)
+            {
+                if (figure.Location + stepCount < Map.Length)
+                {
+                    var target = Map[figure.Location + stepCount];
+                    if (target.State == null || target.State.IsFree && figure.Type != target.State.Type)
+                        result.Add(figure);
+                }
+
+                else if (figure.Location + stepCount == Map.Length)
+                    result.Add(figure);
+            }
+
+            return result;
         }
     }
 }

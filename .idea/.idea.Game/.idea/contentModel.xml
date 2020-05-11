@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\valer\.Rider2019.2\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\valer\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_Game.-265926253.00" t="ExcludeRecursive" />
-    <e p="C:\Users\valer\RiderProjects\Game\EgyptianSenet" t="IncludeFlat">
+    <e p="C:\Users\egorp\AppData\local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\egorp\AppData\local\JetBrains\Rider2020.1\resharper-host\local\Transient\ReSharperHost\v201\SolutionCaches\_Game.107283786.00" t="ExcludeRecursive" />
+    <e p="C:\Users\egorp\OneDrive\Рабочий стол\C#\Senet\Senet1105" t="IncludeFlat">
       <e p="Game" t="IncludeRecursive">
         <e p="App.config" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
@@ -35,6 +35,7 @@
         <e p="Views" t="Include">
           <e p="GameForm.cs" t="Include" />
           <e p="GameForm.Designer.cs" t="Include" />
+          <e p="GameForm.resx" t="Include" />
           <e p="MenuForm.cs" t="Include" />
           <e p="MenuForm.Designer.cs" t="Include" />
         </e>

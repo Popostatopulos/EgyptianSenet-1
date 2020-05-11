@@ -11,6 +11,7 @@ namespace Game.GameLogic
         public List<Figure> OwnFigures { get; set; }
         public Figure FigureInTheHouseOfBeauty { get; set; }
         public Figure FigureInTheHouseOfWater { get; set; }
+        public bool AbleToMove { get; set; }
 
         public Player(ChipsType chipsType, Cell[] map)
         {

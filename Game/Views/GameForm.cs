@@ -17,7 +17,7 @@ namespace Game.Views
         private Button throwButton;
         private int currentStepCount;
         private Label currentFigureType;
-        
+
         public GameForm(GameLogic.Game game, MenuForm menuForm)
         {
             cells = new Dictionary<Cell, Control>();
@@ -25,6 +25,7 @@ namespace Game.Views
             this.game = game;
             MinimumSize = new Size(1200, 800);
             MaximumSize = MinimumSize;
+            BackColor = Color.Teal;
             gameField = new TableLayoutPanel
             {
                 Location = new Point(50, 50),
@@ -65,7 +66,7 @@ namespace Game.Views
                                     game.ChangeCurrentPlayer();
                                     CurrentFigureTypeRedrawing();
                                 }
-
+                                throwButton.Enabled = true;
                                 currentStepCount = 0;
                             }
                         }
@@ -75,8 +76,8 @@ namespace Game.Views
                             var messageBox = MessageBox.Show("Игра окончена!", "", MessageBoxButtons.YesNo);
                             if (messageBox != DialogResult.Yes)
                             {
+                                menuForm.Hide();
                                 Close();
-                                menuForm.Close();
                             }
                         }
                     };
@@ -119,6 +120,13 @@ namespace Game.Views
             {
                 currentStepCount = GameLogic.Game.Sticks.Throw();
                 SticksRedrawing();
+                if (game.CheckAbleToMove(currentStepCount).Count == 0)
+                {
+                    game.ChangeCurrentPlayer();
+                    CurrentFigureTypeRedrawing();
+                }
+
+                //throwButton.Enabled = false;
             };
             Controls.Add(throwButton);
 
@@ -132,11 +140,17 @@ namespace Game.Views
             
             currentFigureType = new Label
             {
-                Size = new Size(110, 100),
+                Size = new Size(105, 95),
                 BackgroundImage = new Bitmap(@"images\Coil.jpg"),
                 Location = new Point(sticks.Right + 150, gameField.Bottom + 100)
             };
             Controls.Add(currentFigureType);
+
+            FormClosing += (sender, args) =>
+            {
+                menuForm.Show();
+                Hide();
+            }; //Application.Exit();
         }
 
         public void CurrentFigureTypeRedrawing()
@@ -166,6 +180,21 @@ namespace Game.Views
                         cells[cell].BackgroundImage = new Bitmap(@"images\Cone.jpg");
                     }
                 }
+
+                else if(cell is HouseOfRevival)
+                    cells[cell].BackgroundImage = new Bitmap(@"images\HouseOfRevival.jpg");
+                
+                else if(cell is HouseOfBeauty)
+                    cells[cell].BackgroundImage = new Bitmap(@"images\HouseOfBeauty.jpg");
+                else if(cell is HouseOfWater)
+                    cells[cell].BackgroundImage = new Bitmap(@"images\HouseOfWater.jpg");
+                else if(cell is HouseOfThreeTruths)
+                    cells[cell].BackgroundImage = new Bitmap(@"images\HouseOfTrue.jpg");
+                else if(cell is HouseOfIsidaAndNeftida)
+                    cells[cell].BackgroundImage = new Bitmap(@"images\HouseOfGirls.jpg");
+                else if(cell is HouseOfRaHorati)
+                    cells[cell].BackgroundImage = new Bitmap(@"images\HouseOfRA.jpg");
+                
                 else
                     cells[cell].BackgroundImage = new Bitmap(@"images\fon.png");
             }

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using Game.GameLogic;
 
@@ -14,18 +14,21 @@ namespace Game.Views
         private Dictionary<Control, Cell> buttons;
         private readonly TableLayoutPanel gameField;
         private Label sticks;
-        private Button throwButton;
+        private static Button throwButton;
         private int currentStepCount;
         private Label currentFigureType;
+        private List<Button> buttonsControls;
 
         public GameForm(GameLogic.Game game, MenuForm menuForm)
         {
+            buttonsControls = new List<Button>();
             cells = new Dictionary<Cell, Control>();
             buttons = new Dictionary<Control, Cell>();
             this.game = game;
             MinimumSize = new Size(1200, 800);
             MaximumSize = MinimumSize;
             BackColor = Color.Teal;
+
             gameField = new TableLayoutPanel
             {
                 Location = new Point(50, 50),
@@ -45,29 +48,40 @@ namespace Game.Views
                 {
                     var button = new Button {Dock = DockStyle.Fill, BackColor = Color.FromArgb(239, 227, 175)};
                     gameField.Controls.Add(button, i, j);
+                    buttonsControls.Add(button);
                     button.Click += (sender, args) =>
                     {
                         Figure figure;
                         if (buttons[button].State != null)
                         {
+                            FieldRedrawing();
                             figure = buttons[button].State;
                             if (GameLogic.Game.CurrentPlayer.FigureInTheHouseOfBeauty != null)
                                 figure = GameLogic.Game.CurrentPlayer.FigureInTheHouseOfBeauty;
                             
                             if (GameLogic.Game.CurrentPlayer.FigureInTheHouseOfWater != null)
                                 figure = GameLogic.Game.CurrentPlayer.FigureInTheHouseOfWater;
-
+                            
                             if (figure.Type == GameLogic.Game.CurrentPlayer.OwnType &&
                                 GameLogic.Game.MakeStep(currentStepCount, game.Map, figure))
                             {
                                 FieldRedrawing();
-                                if (!GameLogic.Game.Sticks.ExtraMove)
+                                
+                                if (!GameLogic.Game.Sticks.ExtraMove || 
+                                    game.CheckAbleToMove(currentStepCount).Count == 0)
                                 {
                                     game.ChangeCurrentPlayer();
                                     CurrentFigureTypeRedrawing();
                                 }
                                 throwButton.Enabled = true;
                                 currentStepCount = 0;
+                            }
+                            FieldRedrawing();
+                            if (GameLogic.Game.CurrentPlayer.IsAI)
+                            {
+                                Thread.Sleep(500);
+                                AIMove();
+                                FieldRedrawing();
                             }
                         }
 
@@ -115,7 +129,7 @@ namespace Game.Views
                 Location = new Point(gameField.Left, gameField.Bottom + 100),
                 BackColor = Color.Teal
             };
-
+            
             throwButton.Click += (sender, args) =>
             {
                 currentStepCount = GameLogic.Game.Sticks.Throw();
@@ -124,10 +138,13 @@ namespace Game.Views
                 {
                     game.ChangeCurrentPlayer();
                     CurrentFigureTypeRedrawing();
+                    throwButton.Enabled = true;
                 }
-
-                //throwButton.Enabled = false;
+                else
+                    throwButton.Enabled = false;
             };
+
+            
             Controls.Add(throwButton);
 
             sticks = new Label
@@ -150,18 +167,33 @@ namespace Game.Views
             {
                 menuForm.Show();
                 Hide();
-            }; //Application.Exit();
+            };
         }
 
-        public void CurrentFigureTypeRedrawing()
+        private void AIMove()
         {
+            throwButton.PerformClick();
+            var activeFigureLocation = GameLogic.Game.CurrentPlayer.AIChoice(
+                GameLogic.Game.CurrentPlayer.GetFigureWithHighestPriority(
+                    game.CheckAbleToMove(currentStepCount),
+                    currentStepCount,
+                    game.Map));
+            if (activeFigureLocation != null)
+                buttonsControls.Where(b => buttons[b].State != null && buttons[b].State == activeFigureLocation).ToArray().FirstOrDefault()?.PerformClick();
+            FieldRedrawing();
+            if (GameLogic.Game.Sticks.ExtraMove)
+                AIMove();
+        }
+
+
+        public void CurrentFigureTypeRedrawing()
+        { 
             if (GameLogic.Game.CurrentPlayer.OwnType == ChipsType.Coil)
                 currentFigureType.BackgroundImage = new Bitmap(@"images\Coil.jpg");
             else
                 currentFigureType.BackgroundImage = new Bitmap(@"images\Cone.jpg");
         }
-
-
+        
         private void SticksRedrawing()
         {
             sticks.BackgroundImage = new Bitmap($@"images\sticks{currentStepCount}.jpg");

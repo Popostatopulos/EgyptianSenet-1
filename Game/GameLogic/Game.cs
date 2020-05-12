@@ -11,18 +11,14 @@ namespace Game.GameLogic
         public static Sticks Sticks { get; set; }
         public Player PlayerFirst { get; set; }
         public Player PlayerSecond { get; set; }
-        private bool isFirstPlayerCurrent = false;
+        private bool isFirstPlayerCurrent;
         public static Player CurrentPlayer { get; set; }
         
-
-
-        //Для игрока - человека нужно сделать выбор фигуры по нажатию ЛКМ
-        //Для ИИ метод ChooseFigure должен быть написан в классе Player
         public Game()
         {
             Map = new Cell[31];
             MapFilling();
-            PlayerFirst = new Player(ChipsType.Cone, Map);
+            PlayerFirst = new Player(ChipsType.Cone, Map, true);
             PlayerSecond = new Player(ChipsType.Coil, Map);
             Sticks = new Sticks();
             CurrentPlayer = PlayerSecond;
@@ -57,16 +53,6 @@ namespace Game.GameLogic
         }
 
         public static bool IsGameOver() => CurrentPlayer.OwnFigures.Count == 0;
-
-        public void NoHumanMove(int figureNumber, Sticks sticks)
-        {
-            var stepCount = sticks.Throw();
-            var currentFigure = CurrentPlayer.OwnFigures.Find(figure => figure.SerialNumber == figureNumber);
-            if (!MakeStep(stepCount, Map, currentFigure)) return;
-            if (sticks.ExtraMove) 
-                NoHumanMove(currentFigure.SerialNumber, sticks);
-            ChangeCurrentPlayer();
-        }
 
         public static bool MakeStep(int stepCount, Cell[] map, Figure figure)
         { 

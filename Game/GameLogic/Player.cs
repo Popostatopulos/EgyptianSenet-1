@@ -7,45 +7,59 @@ namespace Game.GameLogic
     public class Player
     {
         public ChipsType OwnType { get; }
-        public bool IsMan { get; set; }//Странная переменная
-        public List<Figure> OwnFigures { get; set; }
+        public bool IsAI { get; }
+        public List<Figure> OwnFigures { get; }
         public Figure FigureInTheHouseOfBeauty { get; set; }
         public Figure FigureInTheHouseOfWater { get; set; }
-        public bool AbleToMove { get; set; }
 
-        public Player(ChipsType chipsType, Cell[] map)
+        public Player(ChipsType chipsType, Cell[] map, bool isAI = false)
         {
+            IsAI = isAI;
             OwnType = chipsType;
-            IsMan = false;
-            OwnFigures = new List<Figure>();//из Game
+            OwnFigures = new List<Figure>();
             for (var i = 1; i <= 14; i++)
             {
                 if (map[i].State.Type == OwnType)
                     OwnFigures.Add(map[i].State);
             }
         }
-        
-        public void ArtificialIntelligenceMove(Sticks sticks, Cell[] map, int figureNumber)// ChooseFigure in other place
-        //Пример: метод принимает номер фигуры и координаты цели
-        {
-            var stepCount = sticks.Throw();
-            // var figureNumber = ChooseFigure();//Индексация должна начинаться с 0
-            //OwnFigures[figureNumber - 1].MakeStep(stepCount, map);//Не обращаться по индексу у листа
-            //if (OwnFigures)
-            if (OwnFigures[figureNumber - 1].Location == 26 || OwnFigures[figureNumber - 1].Location == 27) 
-                ArtificialIntelligenceMove(sticks, map, figureNumber);
-            else if (sticks.ExtraMove)
-            {
-                //Перевыбор номера
-                //Step с этим номером
-            }
-        }
-        
-        //Check() и Move(), просчет хода(ИИ), сам ход
 
-        public bool Check(int figureNumber, int stepCount)
+        public Figure AIChoice(Dictionary<string, List<Figure>> priorities)
         {
-            throw new NotImplementedException();
+            Figure currentFigure = null;
+            if (priorities["high"].Count > 0)
+            {
+                var random = new Random();
+                currentFigure = priorities["high"][random.Next(0, priorities["high"].Count)];
+            }
+            else if (priorities["low"].Count > 0)
+            {
+                var random = new Random();
+                currentFigure = priorities["low"][random.Next(0, priorities["low"].Count)];
+            }
+            
+            return currentFigure;
+        }
+
+        public Dictionary<string, List<Figure>> GetFigureWithHighestPriority(List<Figure> figures, int stepCount, Cell[] map)
+        {
+            var priorityDict = new Dictionary<string, List<Figure>>();
+            priorityDict["high"] = new List<Figure>();
+            priorityDict["low"] = new List<Figure>();
+            foreach (var figure in figures)
+            {
+                Figure target = null;
+                if (figure.Location + stepCount < map.Length)
+                    target = map[figure.Location + stepCount].State;
+                if (target != null && target.Type != figure.Type && target.IsFree)
+                    priorityDict["high"].Add(figure);
+                else if (figure.Location + stepCount == map.Length)
+                    priorityDict["high"].Add(figure);
+                else if (target == null)
+                    priorityDict["low"].Add(figure);
+            }
+
+            return priorityDict;
         }
         
     }
